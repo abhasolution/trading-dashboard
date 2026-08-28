@@ -157,29 +157,32 @@ def dashboard(request: Request):
 
     conn.close()
 
-    return templates.TemplateResponse("index.html", {
-        "request": request,
-        "total_balance": total_balance,
-        "total_pl": total_pl,
-        "today_generated": len(providers),
-        "today_executed": 12,
-        "active_accounts_count": active_accounts_count,
-        "live_positions": [{
-            "ticket": p[0], "provider": p[1], "symbol": p[2], "type": p[3],
-            "volume": p[4], "price_open": p[5], "sl": p[6], "tp": p[7], "profit": p[8]
-        } for p in live_positions],
-        "accounts": accounts,
-        "signal_logs": signal_logs,
-        "providers": providers,
-        "loss_logs": loss_logs,
-        "assets": assets,
-        "confidence_threshold": 85,
-        "default_lot_size": 0.01,
-        "max_trades": 5,
-        "tokens_used": 1420,
-        "token_limit": 50000,
-        "approx_cost": 0.0214
-    })
+    return templates.TemplateResponse(
+        request=request,
+        name="index.html",
+        context={
+            "total_balance": total_balance,
+            "total_pl": total_pl,
+            "today_generated": len(providers),
+            "today_executed": 12,
+            "active_accounts_count": active_accounts_count,
+            "live_positions": [{
+                "ticket": p[0], "provider": p[1], "symbol": p[2], "type": p[3],
+                "volume": p[4], "price_open": p[5], "sl": p[6], "tp": p[7], "profit": p[8]
+            } for p in live_positions],
+            "accounts": accounts,
+            "signal_logs": signal_logs,
+            "providers": providers,
+            "loss_logs": loss_logs,
+            "assets": assets,
+            "confidence_threshold": 85,
+            "default_lot_size": 0.01,
+            "max_trades": 5,
+            "tokens_used": 1420,
+            "token_limit": 50000,
+            "approx_cost": 0.0214
+        }
+    )
 
 @app.post("/emergency_close")
 def emergency_close():
